@@ -16,17 +16,19 @@ public class Main {
         doors.add(door2);
         doors.add(door3);
 
-        Map<Integer, String> winMap = new HashMap<>();
+        Map<Integer, Boolean> winMap = new HashMap<>();
         for (int i = 0; i < 1000; i++) {
             Game game = new Game(doors);
             game.hivePrize();
             game.selectDoor();
             game.openDoor();
             game.changeDoor();
-            winMap.put(i, game.play());
+            game.play();
+            winMap.put(i, game.isWin());
             game.initDoors();
         }
-        System.out.println("Статистика игры с заменой двери");
+        System.out.println("Статистика игры с заменой двери" +
+                           "\n===============================");
         getStatistic(winMap);
 
         winMap = new HashMap<>();
@@ -35,26 +37,26 @@ public class Main {
             game.hivePrize();
             game.selectDoor();
             game.openDoor();
-            winMap.put(i, game.play());
+            game.play();
+            winMap.put(i, game.isWin());
             game.initDoors();
         }
-        System.out.println("Статистика игры без замены двери");
+        System.out.println("\nСтатистика игры без замены двери"+
+                "\n===============================");
         getStatistic(winMap);
     }
 
-    public static void getStatistic(Map<Integer, String> winMap) {
+    public static void getStatistic(Map<Integer, Boolean> winMap) {
         int winCount = 0;
         int looseCount = 0;
-        for (Map.Entry<Integer, String> entry : winMap.entrySet()) {
-            if (entry.getValue().equals("win ")) {
-                System.out.print("win");
+        for (Map.Entry<Integer, Boolean> entry : winMap.entrySet()) {
+            if (entry.getValue()) {
                 winCount++;
             } else {
-                System.out.print("lose ");
                 looseCount++;
             }
         }
         System.out.printf("Выигрышей: %s, проигрышей: %s", winCount, looseCount);
-        System.out.printf("\nПроцент выигрышей: %s%%\n", winCount*100/1000);
+        System.out.printf("\nПроцент выигрышей: %s %%\n", winCount*100/winMap.size());
     }
 }

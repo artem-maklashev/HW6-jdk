@@ -8,6 +8,7 @@ public class Game {
 
 
     private int selectedDoor;
+    private boolean win;
 
     public Game(List<Door> doors) {
         this.doors = doors;
@@ -17,7 +18,7 @@ public class Game {
         doors.get(random).setHavePrize(true);
     }
     public void selectDoor() {
-        this.selectedDoor = (int) (Math.random() * doors.size());
+        selectedDoor = (int) (Math.random() * doors.size());
         doors.get(selectedDoor).setChosen(true);
     }
 
@@ -41,11 +42,9 @@ public class Game {
         }
     }
 
-    public String play() {
+    public void play() {
         if (doors.get(selectedDoor).isHavePrize()) {
-            return "win";
-        } else {
-            return "lose";
+            win = true;
         }
     }
 
@@ -55,5 +54,9 @@ public class Game {
             door.setHavePrize(false);
             door.setOpen(false);
         }
+    }
+
+    public boolean isWin() {
+        return win;
     }
 }
